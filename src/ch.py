@@ -2,8 +2,8 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
-row1 = [10, 'String Value 10', 5.]
-row2 = [20, 'String Value 20', -10.]
+row1 = ["key1", 81]
+row2 = ["key2", 24]
 data = [row1, row2]
 
 from models.ch_connection_model import CH_Config
@@ -18,8 +18,8 @@ ch_config = CH_Config(
      query_limit=5
 )
 
-client = CH_Client(ch_config)
-client.create_table(
+ch = CH_Client(ch_config)
+ch.create_table(
      "example_table",
      [
           {
@@ -30,5 +30,8 @@ client.create_table(
                "name": "key_age",
                "type": "Int32"
           }
-     ]
+     ],
+     'key'
 )
+
+ch.client.insert("example_table", data, column_names=['key', 'key_age'])

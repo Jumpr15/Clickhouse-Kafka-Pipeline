@@ -12,7 +12,7 @@ class CH_Client:
             **ch_config.model_dump()
         )
 
-    def create_table(self, table_name, keys: list[dict]):
+    def create_table(self, table_name, keys: list[dict], order_key):
         key_list = ", ".join(f"{key['name']} {key['type']}" for key in keys)
         
         try:
@@ -20,7 +20,7 @@ class CH_Client:
             if not self.client.command(  
                 check_table_statement
             ):
-                create_table_statement = f'CREATE TABLE {table_name} ({key_list}) ENGINE = MergeTree() ORDER BY key'
+                create_table_statement = f'CREATE TABLE {table_name} ({key_list}) ENGINE = MergeTree() ORDER BY {order_key}'
                 res = self.client.command(
                     create_table_statement
                 )
